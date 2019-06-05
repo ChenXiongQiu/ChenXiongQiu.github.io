@@ -1,18 +1,32 @@
 language: node_js
-node_js:
-  - '11'
+node_js: stable
+
+# S: Build Lifecycle
 install:
   - npm install
+
+before_install:
+  - git submodule update --init --remote --recursive
+  
+#before_script:
+ # - npm install -g gulp
+
 script:
   - hexo g
+
 after_script:
   - cd ./public
   - git init
-  - git config user.name ${USERNAME}
-  - git config user.email ${UESREMAIL}
-  - git add -A
-  - git commit -m 'init'
-  - git push -u -f "https://${TOKEN}@github.com/${USERNAME}/hexo_blog" master:gh-pages
+  - git config user.name "ChenXiongQiu"
+  - git config user.email "1754086318@qq.com"
+  - git add .
+  - git commit -m "Update docs"
+  - git push --force --quiet "https://${TOKEN}@${GH_REF}" master:master
+# E: Build LifeCycle
+
 branches:
   only:
-    - master
+    - blog-source
+env:
+ global:
+   - GH_REF: github.com/ChenXiongQiu/ChenXiongQiu.github.io.git
